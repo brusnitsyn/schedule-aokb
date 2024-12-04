@@ -1,7 +1,23 @@
 <script setup>
 import Centered from "@/Layouts/Centered.vue"
 import { format } from "date-fns"
-defineProps({ schedule: Array })
+import {onMounted} from "vue";
+const props = defineProps({ schedule: Array })
+
+onMounted(() => {
+    window.Echo.channel("schedule-item")
+        .listen("CreatedScheduleItem", (e) => {
+            props.schedule.push(e.message)
+        })
+        .listen("UpdatedScheduleItem", (e) => {
+            const updatedItem = e.message
+            const oldItemIndex = props.schedule.findIndex(item => item.id === updatedItem.id)
+
+            if (oldItemIndex !== -1) {
+                props.schedule[oldItemIndex] = updatedItem
+            }
+        })
+})
 </script>
 
 <template>
@@ -38,6 +54,11 @@ defineProps({ schedule: Array })
                             {{ format(scheduleItem.start_at, 'HH:mm') }}-{{ format(scheduleItem.end_at, 'HH:mm') }}
                         </div>
                         <div v-else></div>
+                    </td>
+                </tr>
+                <tr class="!bg-transparent text-[32px] text-center normal-case" height="66">
+                    <td colspan="4">
+                        Полный список мед. работников на сайте www.aokb28.su
                     </td>
                 </tr>
             </tbody>
