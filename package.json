@@ -4,7 +4,7 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "queue:start": "php artisan queue:restart && npm run queue:remove && pm2 start pm2.json",
+        "queue:start": "php artisan queue:restart && php artisan reverb:restart && npm run queue:remove && pm2 start pm2.json",
         "queue:remove": "pm2 delete pm2.json"
     },
     "devDependencies": {
