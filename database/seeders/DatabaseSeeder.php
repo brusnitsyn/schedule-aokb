@@ -18,11 +18,11 @@ class DatabaseSeeder extends Seeder
     {
         StatusScheduleItem::create([
             'label' => 'Ведет приём',
-            'value' => ''
+            'text' => null
         ]);
         StatusScheduleItem::create([
             'label' => 'Нет приёма',
-            'value' => 'Нет приёма'
+            'text' => 'Нет приёма'
         ]);
     }
 }

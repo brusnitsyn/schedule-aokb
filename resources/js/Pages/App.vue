@@ -61,7 +61,7 @@ onMounted(() => {
                         <div v-if="scheduleItem.status_schedule_item_id === 1">
                             {{ format(scheduleItem.start_at, 'HH:mm') }}-{{ format(scheduleItem.end_at, 'HH:mm') }}
                         </div>
-                        <div v-else>{{ scheduleItem.status_schedule_item.value }}</div>
+                        <div v-else>{{ scheduleItem.status_schedule_item.text }}</div>
                     </td>
                 </tr>
                 <tr class="!bg-transparent text-[32px] text-center normal-case" height="66">

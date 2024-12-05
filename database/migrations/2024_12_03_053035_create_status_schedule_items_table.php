@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('status_schedule_items', function (Blueprint $table) {
             $table->id();
             $table->string('label');
-            $table->string('value')->nullable();
+            $table->string('text')->nullable();
             $table->timestamps();
         });
     }
