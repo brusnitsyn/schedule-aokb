@@ -38,7 +38,7 @@ class ScheduleStoreRequest extends FormRequest
     {
         $hasCreated = ScheduleItem::create($this->validated());
         if ($hasCreated) {
-            broadcast(new CreatedScheduleItem($hasCreated))->toOthers();
+            broadcast(new CreatedScheduleItem($hasCreated));
         }
 
         return Redirect::route('schedule');

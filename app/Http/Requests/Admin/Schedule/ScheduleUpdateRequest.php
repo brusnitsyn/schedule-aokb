@@ -50,7 +50,7 @@ class ScheduleUpdateRequest extends FormRequest
 
         $hasUpdated = $scheduleItem->update($data);
         if ($hasUpdated) {
-            broadcast(new UpdatedScheduleItem($scheduleItem->first()))->toOthers();
+            broadcast(new UpdatedScheduleItem($scheduleItem->first()));
         }
 
         return Redirect::route('schedule');

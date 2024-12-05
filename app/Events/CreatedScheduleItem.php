@@ -19,7 +19,7 @@ class CreatedScheduleItem implements ShouldBroadcast
      */
     public function __construct(public $message)
     {
-        $this->dontBroadcastToCurrentUser();
+
     }
 
     /**

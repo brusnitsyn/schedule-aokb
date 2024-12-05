@@ -56,7 +56,7 @@ class ScheduleController extends Controller
         $hasDeleted = $scheduleItem->delete();
 
         if ($hasDeleted) {
-            broadcast(new DeletedScheduleItem($saveScheduleItem))->toOthers();
+            broadcast(new DeletedScheduleItem($saveScheduleItem));
         }
 
         return Redirect::route('schedule');

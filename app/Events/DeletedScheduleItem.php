@@ -19,7 +19,7 @@ class DeletedScheduleItem implements ShouldBroadcast
      */
     public function __construct(public $message)
     {
-        $this->dontBroadcastToCurrentUser();
+
     }
 
     /**
