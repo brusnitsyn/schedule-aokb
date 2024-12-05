@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import {inject, onMounted, ref, watch, watchEffect} from "vue"
-import { NModal, NForm, NCard, NGrid, NFormItemGi, NInput, NFlex, NButton, useMessage } from 'naive-ui'
+import {NModal, NForm, NCard, NGrid, NFormItemGi, NInput, NFlex, NButton, useMessage, NSelect} from 'naive-ui'
 import type {FormInst} from 'naive-ui'
 import { useForm } from '@inertiajs/vue3'
 import TimePicker from "@/components/TimePicker.vue"
 
 const open = defineModel<boolean>('open')
 const props = defineProps({
-    selectedScheduleItem: { type: Object, required: true }
+    selectedScheduleItem: { type: Object, required: true },
+    scheduleStatuses: { type: Array, required: true }
 })
 
 const message = useMessage()
@@ -102,7 +103,9 @@ function closeModal() {
                 <NFormItemGi label="Время окончания приема" path="end_at">
                     <TimePicker v-model:value="form.end_at" />
                 </NFormItemGi>
-
+                <NFormItemGi label="Приём" path="status_schedule_item_id">
+                    <NSelect v-model:value="form.status_schedule_item_id" :items="scheduleStatuses" value-field="id" />
+                </NFormItemGi>
             </NGrid>
         </NForm>
         <template #action>
@@ -111,7 +114,7 @@ function closeModal() {
                     Отмена
                 </NButton>
                 <NButton type="primary" :loading="form.processing" :disabled="form.processing || !form.isDirty" attr-type="submit" @click="handleSubmit">
-                    Добавить
+                    Обновить слот
                 </NButton>
             </NFlex>
         </template>

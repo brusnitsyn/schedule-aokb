@@ -32,6 +32,7 @@ class ScheduleUpdateRequest extends FormRequest
             'room' => ['required', 'string'],
             'start_at' => ['required', 'numeric'],
             'end_at' => ['required', 'numeric'],
+            'status_schedule_item_id' => ['required', 'numeric']
         ];
     }
 

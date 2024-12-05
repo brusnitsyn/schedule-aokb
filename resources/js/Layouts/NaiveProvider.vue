@@ -1,12 +1,12 @@
 <script setup>
-import {NConfigProvider, NMessageProvider} from 'naive-ui'
+import {NConfigProvider, NMessageProvider, NDialogProvider} from 'naive-ui'
 import {ruRU, dateRuRU} from 'naive-ui'
 </script>
 
 <template>
     <NMessageProvider>
         <NConfigProvider :locale="ruRU" :date-locale="dateRuRU">
-                <slot />
+            <slot />
         </NConfigProvider>
     </NMessageProvider>
 </template>

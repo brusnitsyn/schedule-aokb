@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('schedule_items', function (Blueprint $table) {
             $table->id();
+            $table->integer('position');
             $table->string('doctor_job');
             $table->string('doctor_name');
             $table->string('room');

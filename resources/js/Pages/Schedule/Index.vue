@@ -1,12 +1,14 @@
 <script setup>
 import {ref, h, reactive, provide, readonly} from "vue"
-import { NH1, NSpace, NFlex, NButton, NDivider, NDropdown, NDataTable, NIcon } from 'naive-ui'
+import { NH1, NSpace, NFlex, NButton, NDivider, NDropdown, NDataTable, NIcon, NDialogProvider, useDialog } from 'naive-ui'
 import { IconDots } from '@tabler/icons-vue'
 import Admin from "@/Layouts/Admin.vue"
 import CreateScheduleItemModal from "@/components/Modals/CreateScheduleItemModal.vue"
 import UpdateScheduleItemModal from "@/components/Modals/UpdateScheduleItemModal.vue"
+import {format} from "date-fns"
+import {router} from "@inertiajs/vue3"
 
-const props = defineProps({ schedule: Array })
+const props = defineProps({ schedule: Array, scheduleSlots: Array, scheduleStatuses: Array })
 
 const hasOpenCreateScheduleItemModal = ref(false)
 const hasOpenUpdateScheduleItemModal = ref(false)
@@ -15,28 +17,28 @@ provide('selectedScheduleItem', readonly(selectedScheduleItem))
 
 const rowOptions = ref([
     {
-        label: 'Редактировать',
+        label: 'Изменить слот',
         key: 'edit',
         onClick: (row) => {
             openUpdateModal(true, row)
         }
     },
-    // {
-    //     label: 'Скачать',
-    //     key: 'download',
-    //     onClick: async (row) => {
-    //         await downloadCert([row.id])
-    //     }
-    // },
+    {
+        label: 'Удалить слот',
+        key: 'delete',
+        onClick: async (row) => {
+            await deleteSlot(row)
+        }
+    },
 ])
 
 const columns = ref([
     {
-        title: 'Должность',
+        title: 'Должность врача',
         key: 'doctor_job'
     },
     {
-        title: 'ФИО',
+        title: 'ФИО врача',
         key: 'doctor_name'
     },
     {
@@ -45,7 +47,16 @@ const columns = ref([
     },
     {
         title: 'Время приёма',
-        key: 'time'
+        key: 'time',
+        render(row) {
+            return h(
+                'div',
+                {},
+                {
+                    default: () => `${format(row.start_at, 'HH:mm')}-${format(row.end_at, 'HH:mm')}`
+                }
+            )
+        }
     },
     {
         title: '',
@@ -81,28 +92,60 @@ function openUpdateModal(open, row) {
     hasOpenUpdateScheduleItemModal.value = open
 }
 
+// const dialog = useDialog()
+async function deleteSlot(row) {
+    router.delete(`/schedule/${row.id}/delete`)
+    // const d = dialog.warning({
+    //     title: 'Удаление слота',
+    //     content: 'Вы действительно хотите удалить этот слот?',
+    //     negativeText: 'Нет',
+    //     positiveText: 'Да',
+    //     onPositiveClick: () => {
+    //         d.loading = true
+    //         return new Promise((resolve) => {
+    //             sleep()
+    //                 .then(() => {
+    //                     d.content = countDown(2)
+    //                     return sleep()
+    //                 })
+    //                 .then(() => {
+    //                     d.content = countDown(1)
+    //                     return sleep()
+    //                 })
+    //                 .then(() => {
+    //                     d.content = countDown(0)
+    //                 })
+    //                 .then(resolve)
+    //         })
+    //     }
+    // })
+}
 </script>
 
 <template>
-    <Admin>
-        <NSpace vertical>
-            <NFlex justify="space-between" align="center" class="mb-5">
-                <NH1 class="!mb-0">Расписание</NH1>
-                <NSpace align="center">
-                    <NText>
-                        Доступно слотов 29 из 30
-                    </NText>
-                    <NDivider vertical />
-                    <NButton type="primary" @click="hasOpenCreateScheduleItemModal = true">
-                        Добавить
-                    </NButton>
+
+        <Admin>
+            <NDialogProvider>
+                <NSpace vertical>
+                    <NFlex justify="space-between" align="center" class="mb-5">
+                        <NH1 class="!mb-0">Расписание</NH1>
+                        <NSpace align="center">
+                            <NText>
+                                Доступно слотов {{ scheduleSlots.allow }} из {{ scheduleSlots.all }}
+                            </NText>
+                            <NDivider vertical />
+                            <NButton :disabled="scheduleSlots.hasDisabledAddButton" type="primary" @click="hasOpenCreateScheduleItemModal = true">
+                                Добавить слот
+                            </NButton>
+                        </NSpace>
+                    </NFlex>
+                    <NDataTable :columns="columns" :data="schedule" />
                 </NSpace>
-            </NFlex>
-            <NDataTable :columns="columns" :data="schedule" />
-        </NSpace>
-        <CreateScheduleItemModal v-model:open="hasOpenCreateScheduleItemModal" />
-        <UpdateScheduleItemModal v-model:open="hasOpenUpdateScheduleItemModal" :selected-schedule-item="selectedScheduleItem" />
-    </Admin>
+            </NDialogProvider>
+            <CreateScheduleItemModal v-model:open="hasOpenCreateScheduleItemModal" :schedule-statuses="scheduleStatuses" />
+            <UpdateScheduleItemModal v-model:open="hasOpenUpdateScheduleItemModal" :selected-schedule-item="selectedScheduleItem" :schedule-statuses="scheduleStatuses" />
+        </Admin>
+
 </template>
 
 <style scoped>

@@ -17,28 +17,36 @@ onMounted(() => {
                 props.schedule[oldItemIndex] = updatedItem
             }
         })
+        .listen("DeletedScheduleItem", (e) => {
+            const deletedItem = e.message
+            const deletingItemIndex = props.schedule.findIndex(item => item.id === deletedItem.id)
+
+            if (deletingItemIndex !== -1) {
+                props.schedule.splice(deletingItemIndex, 1)
+            }
+        })
 })
 </script>
 
 <template>
     <Centered>
-        <table class="border w-full text-custom font-semibold uppercase leading-[44px]">
+        <table class="border w-full text-custom font-semibold uppercase leading-[28pt]">
             <thead>
                 <tr>
                     <td class="bg-primary" colspan="4">
-                        <div class="flex flex-row justify-center items-center w-full py-3 text-white">
+                        <div class="flex flex-row justify-center items-center w-full py-3 text-white text-[28pt]">
                             РАСПИСАНИЕ РАБОТЫ ВРАЧЕЙ
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <th class="bg-primary border-t border-secondary w-[352px]">Специалист</th>
-                    <th class="bg-primary border-t border-secondary w-[397px]"></th>
-                    <th class="bg-primary border-t border-secondary w-[175px]">Кабинет</th>
-                    <th class="bg-primary border-t border-secondary w-[300px]">Время<br>приёма</th>
+                    <th class="bg-[#b4c6e7] border-t border-secondary w-[352px] text-[28pt] py-2" colspan="2">Специалист</th>
+<!--                    <th class="bg-primary border-t border-secondary w-[397px]"></th>-->
+                    <th class="bg-[#9dc3e6] border-t border-secondary w-[175px] text-[28pt]">Кабинет</th>
+                    <th class="bg-[#9dc3e6] border-t border-secondary w-[340px] text-[28pt]">Время приёма</th>
                 </tr>
             </thead>
-            <tbody class="border border-secondary">
+            <tbody class="">
                 <tr v-for="scheduleItem in schedule" :key="scheduleItem.id" height="62">
                     <td class="max-w-[352px] text-[32px] leading-[36px] pl-4 py-1">
                         {{ scheduleItem.doctor_job }}
@@ -53,7 +61,7 @@ onMounted(() => {
                         <div v-if="scheduleItem.status_schedule_item_id === 1">
                             {{ format(scheduleItem.start_at, 'HH:mm') }}-{{ format(scheduleItem.end_at, 'HH:mm') }}
                         </div>
-                        <div v-else></div>
+                        <div v-else>{{ scheduleItem.status_schedule_item.value }}</div>
                     </td>
                 </tr>
                 <tr class="!bg-transparent text-[32px] text-center normal-case" height="66">
@@ -68,9 +76,9 @@ onMounted(() => {
 
 <style scoped>
 ::v-deep(tr:nth-child(odd)) {
-    background-color: #ddebf7;
+    background-color: #5b9bd5;
 }
 ::v-deep(tr:nth-child(even)) {
-    background-color: #5b9bd5;
+    background-color: #fff;
 }
 </style>

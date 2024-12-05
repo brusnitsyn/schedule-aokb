@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import {ref} from "vue"
-import { NModal, NForm, NCard, NGrid, NFormItemGi, NInput, NFlex, NButton, useMessage } from 'naive-ui'
+import { NModal, NForm, NCard, NGrid, NFormItemGi, NInput, NFlex, NButton, NSelect, useMessage } from 'naive-ui'
 import type {FormInst} from 'naive-ui'
 import { useForm } from '@inertiajs/vue3'
 import TimePicker from "@/components/TimePicker.vue"
+
+const props = defineProps(['scheduleStatuses'])
 
 const open = defineModel<boolean>('open')
 
@@ -14,7 +16,8 @@ const form = useForm({
     doctor_name: '',
     room: '',
     start_at: null,
-    end_at: null
+    end_at: null,
+    status_schedule_item_id: 1
 })
 const rules = {
     doctor_job: [
@@ -82,7 +85,7 @@ function closeModal() {
 </script>
 
 <template>
-    <NModal v-model:show="open" class="w-[640px]" preset="card" title="Добавление в расписание">
+    <NModal v-model:show="open" class="w-[640px]" preset="card" title="Добавление слота в расписание">
         <NForm @submit.prevent="handleSubmit" ref="formRef" :model="form" :rules="rules">
             <NGrid cols="2"  x-gap="8">
                 <NFormItemGi label="ФИО врача" span="2" path="doctor_name">
@@ -100,6 +103,9 @@ function closeModal() {
                 <NFormItemGi label="Время окончания приема" path="end_at">
                     <TimePicker v-model:value="form.end_at" />
                 </NFormItemGi>
+                <NFormItemGi label="Приём" path="status_schedule_item_id">
+                    <NSelect v-model:value="form.status_schedule_item_id" :items="scheduleStatuses" value-field="id" />
+                </NFormItemGi>
             </NGrid>
         </NForm>
         <template #action>
@@ -108,7 +114,7 @@ function closeModal() {
                     Отмена
                 </NButton>
                 <NButton type="primary" :loading="form.processing" :disabled="form.processing || !form.isDirty" attr-type="submit" @click="handleSubmit">
-                    Добавить
+                    Добавить слот
                 </NButton>
             </NFlex>
         </template>

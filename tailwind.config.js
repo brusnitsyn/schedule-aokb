@@ -12,7 +12,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Liberation Serif'],
+                sans: ['Liberation Sans'],
             },
             colors: {
                 primary: '#5b9bd5',
