@@ -38,7 +38,7 @@ class ScheduleUpdateRequest extends FormRequest
 
     public function update()
     {
-        $scheduleItem = ScheduleItem::where('id', $this->validated('id'));
+        $scheduleItem = ScheduleItem::where('id', $this->validated('id'))->with('statusScheduleItem');
         if (!$scheduleItem) {
             return Redirect::route('schedule');
         }
@@ -50,7 +50,7 @@ class ScheduleUpdateRequest extends FormRequest
 
         $hasUpdated = $scheduleItem->update($data);
         if ($hasUpdated) {
-            broadcast(new UpdatedScheduleItem($scheduleItem->load('statusScheduleItem')));
+            broadcast(new UpdatedScheduleItem($scheduleItem->first()));
         }
 
         return Redirect::route('schedule');
