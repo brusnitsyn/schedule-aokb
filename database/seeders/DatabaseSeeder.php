@@ -24,15 +24,5 @@ class DatabaseSeeder extends Seeder
             'label' => 'Нет приёма',
             'value' => 'Нет приёма'
         ]);
-
-        $start = Carbon::now()->setHours(8);
-        ScheduleItem::create([
-            'doctor_job' => 'Заведующая поликлиникой',
-            'doctor_name' => 'Бырдина Е.Е.',
-            'room' => '414',
-            'start_at' => $start,
-            'end_at' => $start->addHours(5),
-            'status_schedule_item_id' => 1
-        ]);
     }
 }
