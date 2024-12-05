@@ -15,6 +15,15 @@ use Inertia\Inertia;
 
 class ScheduleController extends Controller
 {
+    public function page()
+    {
+        $items = \App\Models\ScheduleItem::orderBy('id')->with('statusScheduleItem')->get();
+
+        return Inertia::render('App', [
+            'schedule' => $items
+        ]);
+    }
+
     public function index()
     {
         $items = \App\Models\ScheduleItem::orderBy('id')->get();
