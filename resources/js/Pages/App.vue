@@ -52,7 +52,7 @@ onMounted(() => {
                         {{ scheduleItem.doctor_job }}
                     </td>
                     <td class="max-w-[397px] text-[32px] leading-[36px] pl-4">
-                        ({{ scheduleItem.doctor_name }})
+                        ({{ scheduleItem.doctor_fio }})
                     </td>
                     <td align="center" class="text-[32px] leading-[36px]">
                         [{{ scheduleItem.room }}]
@@ -61,7 +61,7 @@ onMounted(() => {
                         <div v-if="scheduleItem.status_schedule_item_id === 1">
                             {{ format(scheduleItem.start_at, 'HH:mm') }}-{{ format(scheduleItem.end_at, 'HH:mm') }}
                         </div>
-                        <div v-else>{{ scheduleItem.status_schedule_item.text }}</div>
+                        <div v-else>{{ scheduleItem.statusScheduleItem.text }}</div>
                     </td>
                 </tr>
                 <tr class="!bg-transparent text-[32px] text-center normal-case" height="66">
