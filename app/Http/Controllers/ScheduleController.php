@@ -37,9 +37,9 @@ class ScheduleController extends Controller
         ]);
     }
 
-    public function update(ScheduleUpdateRequest $request)
+    public function update(ScheduleItem $scheduleItem, ScheduleUpdateRequest $request)
     {
-        return $request->update();
+        $request->update($scheduleItem);
     }
 
     public function create(ScheduleStoreRequest $request)

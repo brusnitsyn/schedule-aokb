@@ -6,6 +6,7 @@ use App\Events\UpdatedScheduleItem;
 use App\Models\ScheduleItem;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 
 class ScheduleUpdateRequest extends FormRequest
@@ -30,27 +31,24 @@ class ScheduleUpdateRequest extends FormRequest
             'doctor_name' => ['required', 'string'],
             'doctor_job' => ['required', 'string'],
             'room' => ['required', 'string'],
-            'start_at' => ['required', 'numeric'],
-            'end_at' => ['required', 'numeric'],
+            'start_at' => ['required'],
+            'end_at' => ['required'],
             'status_schedule_item_id' => ['required', 'numeric']
         ];
     }
 
-    public function update()
+    public function update(ScheduleItem $scheduleItem)
     {
-        $scheduleItem = ScheduleItem::where('id', $this->validated('id'))->with('statusScheduleItem');
-        if (!$scheduleItem) {
-            return Redirect::route('schedule');
-        }
-
         $data = $this->validated();
 
-        $data['start_at'] = Carbon::createFromTimestampMs($data['start_at'], config('app.timezone'))->toDateTimeString();
-        $data['end_at'] = Carbon::createFromTimestampMs($data['end_at'], config('app.timezone'))->toDateTimeString();
+        if (intval($data['start_at'])) $data['start_at'] = Carbon::createFromTimestampMs($data['start_at'], config('app.timezone'))->toDateTimeString();
+        if (intval($data['end_at'])) $data['end_at'] = Carbon::createFromTimestampMs($data['end_at'], config('app.timezone'))->toDateTimeString();
+
+        Log::info($data);
 
         $hasUpdated = $scheduleItem->update($data);
         if ($hasUpdated) {
-            broadcast(new UpdatedScheduleItem($scheduleItem->first()));
+            broadcast(new UpdatedScheduleItem($scheduleItem));
         }
 
         return Redirect::route('schedule');

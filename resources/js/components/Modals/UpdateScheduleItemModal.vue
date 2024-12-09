@@ -64,7 +64,7 @@ const rules = {
 function handleSubmit() {
     formRef.value?.validate((errors) => {
         if (!errors) {
-            form.value.post('/schedule/update', {
+            form.value.put(`/schedule/${props.selectedScheduleItem.id}/update`, {
                 onSuccess: () => {
                     closeModal()
                 }

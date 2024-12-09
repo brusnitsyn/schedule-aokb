@@ -7,7 +7,7 @@
         "queue:start": "php artisan queue:restart && php artisan reverb:restart && npm run queue:remove && pm2 start pm2.json",
         "queue:remove": "pm2 delete pm2.json"
     },
-    "browserslist": ["Chrome >= 58"],
+    "browserslist": ["Chrome >= 79"],
     "devDependencies": {
         "@vitejs/plugin-vue": "^5.2.1",
         "autoprefixer": "^10.4.20",
