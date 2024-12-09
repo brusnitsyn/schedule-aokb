@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('doctor_job');
             $table->string('doctor_name');
             $table->string('room');
-            $table->dateTime('start_at');
-            $table->dateTime('end_at');
+            $table->unsignedBigInteger('start_at');
+            $table->unsignedBigInteger('end_at');
             $table->foreignIdFor(\App\Models\StatusScheduleItem::class)->default(1);
             $table->timestamps();
         });

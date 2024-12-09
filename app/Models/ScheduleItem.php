@@ -24,21 +24,26 @@ class ScheduleItem extends Model
         'status_schedule_item_id'
     ];
 
-    protected function startAt(): Attribute
-    {
-        return Attribute::make(
-            get: fn (string $value) => Carbon::parse($value, config('app.timezone'))->getTimestampMs(),
-            set: fn (float|int|string $value) => Carbon::createFromTimestampMs($value, config('app.timezone'))->toDateTimeString(),
-        );
-    }
+//    protected $dateFormat = 'U';
 
-    protected function endAt(): Attribute
-    {
-        return Attribute::make(
-            get: fn (string $value) => Carbon::parse($value, config('app.timezone'))->getTimestampMs(),
-            set: fn (float|int|string $value) => Carbon::createFromTimestampMs($value, config('app.timezone'))->toDateTimeString(),
-        );
-    }
+//    protected $casts = [
+//        'start_at' => 'datetime:U',
+//        'end_at' => 'datetime:U',
+//    ];
+
+//    protected function startAt(): Attribute
+//    {
+//        return Attribute::make(
+//            get: fn (mixed $value) => Carbon::createFromTimestampMs($value)->format('Y-m-d H:i'),
+//        );
+//    }
+//
+//    protected function endAt(): Attribute
+//    {
+//        return Attribute::make(
+//            get: fn (string $value) => Carbon::createFromTimeString($value, config('app.timezone'))->getTimestampMs(),
+//        );
+//    }
 
     public function getDoctorFioAttribute(): string
     {

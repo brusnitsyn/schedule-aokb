@@ -41,8 +41,8 @@ class ScheduleUpdateRequest extends FormRequest
     {
         $data = $this->validated();
 
-        if (intval($data['start_at'])) $data['start_at'] = Carbon::createFromTimestampMs($data['start_at'], config('app.timezone'))->toDateTimeString();
-        if (intval($data['end_at'])) $data['end_at'] = Carbon::createFromTimestampMs($data['end_at'], config('app.timezone'))->toDateTimeString();
+//        if (intval($data['start_at'])) $data['start_at'] = Carbon::createFromTimestampMs($data['start_at'], config('app.timezone'))->toTimeString();
+//        if (intval($data['end_at'])) $data['end_at'] = Carbon::createFromTimestampMs($data['end_at'], config('app.timezone'))->toTimeString();
 
         $hasUpdated = $scheduleItem->update($data);
         if ($hasUpdated) {

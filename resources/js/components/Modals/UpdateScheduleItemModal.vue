@@ -104,7 +104,7 @@ function closeModal() {
                     <TimePicker v-model:value="form.end_at" />
                 </NFormItemGi>
                 <NFormItemGi label="Приём" path="status_schedule_item_id">
-                    <NSelect v-model:value="form.status_schedule_item_id" :items="scheduleStatuses" value-field="id" />
+                    <NSelect v-model:value="form.status_schedule_item_id" :options="scheduleStatuses" value-field="id" />
                 </NFormItemGi>
             </NGrid>
         </NForm>
