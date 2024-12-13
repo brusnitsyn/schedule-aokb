@@ -11,9 +11,9 @@ class ScheduleController extends Controller
     {
         $items = \App\Models\ScheduleItem::orderBy('room')->with('statusScheduleItem')->get();
         $chunks = $items->chunk(14);
-        $chunksArray = $chunks->toArray();
+        if (!is_array($chunks[array_key_last($chunks)])) $chunks[] = [$chunks[array_key_last($chunks)]];
         return response()->json([
-            'schedule' => $chunksArray
+            'schedule' => $chunks
         ]);
     }
 }
