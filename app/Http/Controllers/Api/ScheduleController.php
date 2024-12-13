@@ -16,10 +16,11 @@ class ScheduleController extends Controller
 //            unset($chunks[array_key_last($chunks)]);
 //            $chunks[] = $arr;
 //        }
+
         $chunks = [];
         $tempArray = [];
         foreach ($items as $item) {
-            if (count($items) % 14 !== 0) {
+            if (count($items) % 2 !== 0) {
                 $chunks[] = $items;
                 break;
             }
