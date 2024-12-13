@@ -19,9 +19,14 @@ class ScheduleController extends Controller
         $chunks = [];
         $tempArray = [];
         foreach ($items as $item) {
+            if (count($items) % 14 !== 0) {
+                $chunks[] = $items;
+                break;
+            }
+
             if (count($tempArray) === 14) {
                 $chunks[] = $tempArray;
-                $tempArray[] = [];
+                $tempArray = [];
             }
 
             $tempArray[] = $item;
