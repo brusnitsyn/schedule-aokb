@@ -11,13 +11,13 @@ class ScheduleController extends Controller
     {
         $items = \App\Models\ScheduleItem::orderBy('room')->with('statusScheduleItem')->get();
         $chunks = collect();
-        if (count($items) <= 12) {
+        if (count($items) <= 8) {
             $chunks->push($items);
         } else {
             $tempArray = collect();
             $lastItem = $items->last();
             foreach ($items as $item) {
-                if (count($tempArray) === 12) {
+                if (count($tempArray) === 8) {
                     $chunks->push($tempArray);
                     $tempArray = collect();
                 }
