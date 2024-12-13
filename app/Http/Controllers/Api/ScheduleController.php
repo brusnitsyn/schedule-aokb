@@ -12,7 +12,7 @@ class ScheduleController extends Controller
         $items = \App\Models\ScheduleItem::orderBy('room')->with('statusScheduleItem')->get();
         $chunks = $items->chunk(14)->all();
         if (!is_array($chunks[array_key_last($chunks)])) {
-            $arr[] = [$chunks[array_key_last($chunks)]];
+            $arr[] = $chunks[array_key_last($chunks)];
             unset($chunks[array_key_last($chunks)]);
             $chunks[] = $arr;
         }
