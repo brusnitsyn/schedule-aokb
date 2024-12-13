@@ -12,18 +12,18 @@ class ScheduleController extends Controller
         $items = \App\Models\ScheduleItem::orderBy('room')->with('statusScheduleItem')->get();
         $chunks = [];
         $tempArray = [];
-        foreach ($items as $item) {
-            if (count($items) <= 14) {
-                $chunks[] = $items;
-                break;
-            }
 
-            if (count($tempArray) === 14) {
-                $chunks[] = $tempArray;
-                $tempArray = [];
-            }
+        if (count($items) <= 14) {
+            $chunks[] = $items;
+        } else {
+            foreach ($items as $item) {
+                if (count($tempArray) === 14) {
+                    $chunks[] = $tempArray;
+                    $tempArray = [];
+                }
 
-            $tempArray[] = $item;
+                $tempArray[] = $item;
+            }
         }
 
         return response()->json([
