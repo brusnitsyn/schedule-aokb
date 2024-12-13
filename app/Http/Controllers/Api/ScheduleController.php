@@ -10,7 +10,7 @@ class ScheduleController extends Controller
     public function index()
     {
         $items = \App\Models\ScheduleItem::orderBy('room')->with('statusScheduleItem')->get();
-        $chunks = $items->chunk(14);
+        $chunks = $items->chunk(14)->toArray();
         return response()->json([
             'schedule' => $chunks
         ]);
