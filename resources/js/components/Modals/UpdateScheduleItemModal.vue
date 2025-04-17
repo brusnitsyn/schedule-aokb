@@ -71,6 +71,9 @@ function handleSubmit() {
                 },
                 onSuccess: () => {
                     closeModal()
+                },
+                onError: (err) => {
+                    console.log(err)
                 }
             })
         }
