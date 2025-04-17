@@ -2,7 +2,7 @@
 import {inject, onMounted, ref, watch, watchEffect} from "vue"
 import {NModal, NForm, NCard, NGrid, NFormItemGi, NInput, NFlex, NButton, useMessage, NSelect} from 'naive-ui'
 import type {FormInst} from 'naive-ui'
-import { useForm } from '@inertiajs/vue3'
+import { useForm, router } from '@inertiajs/vue3'
 import TimePicker from "@/components/TimePicker.vue"
 
 const open = defineModel<boolean>('open')
@@ -13,11 +13,11 @@ const props = defineProps({
 
 const message = useMessage()
 const formRef = ref<FormInst | null>(null)
-const form = useForm(props.selectedScheduleItem)
+const form = ref({})
 
-// watch(props, (value) => {
-//     form = useForm(value.selectedScheduleItem)
-// })
+watch(props, (value) => {
+    form = value.selectedScheduleItem
+})
 
 const rules = {
     doctor_job: [
@@ -64,7 +64,9 @@ const rules = {
 function handleSubmit() {
     formRef.value?.validate((errors) => {
         if (!errors) {
-            form.post(`/schedule/${props.selectedScheduleItem.id}/update`, {
+            router.post(`/schedule/${props.selectedScheduleItem.id}/update`, {
+                ...form.value
+            }, {
                 onSuccess: () => {
                     closeModal()
                 },
@@ -81,12 +83,12 @@ function handleSubmit() {
 }
 
 function closeModal() {
-    form.reset()
+    form.value = {}
     open.value = false
 }
 
 function onAfterEnter() {
-    form.defaults(props.selectedScheduleItem)
+    
 }
 
 </script>
