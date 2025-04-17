@@ -13,11 +13,11 @@ const props = defineProps({
 
 const message = useMessage()
 const formRef = ref<FormInst | null>(null)
-const form = useForm()
+const form = useForm(value.selectedScheduleItem)
 
-watch(props, (value) => {
-    form = useForm(value.selectedScheduleItem)
-})
+// watch(props, (value) => {
+//     form = useForm(value.selectedScheduleItem)
+// })
 
 const rules = {
     doctor_job: [
@@ -81,7 +81,7 @@ function handleSubmit() {
 }
 
 function closeModal() {
-    form.value.reset()
+    form.reset()
     open.value = false
 }
 
