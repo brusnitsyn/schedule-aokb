@@ -68,7 +68,7 @@ function handleSubmit() {
                 data: {
                     _method: 'put',
                     ...form.value.data()
-                }
+                },
                 onSuccess: () => {
                     closeModal()
                 }
