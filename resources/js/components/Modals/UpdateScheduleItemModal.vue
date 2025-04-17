@@ -122,7 +122,7 @@ function onAfterEnter() {
                 <NButton secondary @click="closeModal">
                     Отмена
                 </NButton>
-                <NButton type="primary" :loading="form.processing" :disabled="form.processing || !form.isDirty" attr-type="submit" @click="handleSubmit">
+                <NButton type="primary" attr-type="submit" @click="handleSubmit">
                     Обновить слот
                 </NButton>
             </NFlex>
