@@ -64,7 +64,11 @@ const rules = {
 function handleSubmit() {
     formRef.value?.validate((errors) => {
         if (!errors) {
-            form.value.put(`/schedule/${props.selectedScheduleItem.id}/update`, {
+            form.value.post(`/schedule/${props.selectedScheduleItem.id}/update`, {
+                data: {
+                    _method: 'put',
+                    ...form.value
+                }
                 onSuccess: () => {
                     closeModal()
                 }
