@@ -85,10 +85,14 @@ function closeModal() {
     open.value = false
 }
 
+function onAfterEnter = () => {
+    form.defaults(props.selectedScheduleItem)
+}
+
 </script>
 
 <template>
-    <NModal v-model:show="open" class="w-[640px]" preset="card" title="Редактирование слота">
+    <NModal v-model:show="open" @after-enter="onAfterEnter" class="w-[640px]" preset="card" title="Редактирование слота">
         <NForm @submit.prevent="handleSubmit" ref="formRef" :model="form" :rules="rules">
             <NGrid cols="2" x-gap="8">
                 <NFormItemGi label="ФИО врача" span="2" path="doctor_name">
