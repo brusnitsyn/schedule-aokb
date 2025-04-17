@@ -85,7 +85,7 @@ function closeModal() {
     open.value = false
 }
 
-function onAfterEnter = () => {
+function onAfterEnter() {
     form.defaults(props.selectedScheduleItem)
 }
 
