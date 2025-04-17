@@ -13,7 +13,7 @@ const props = defineProps({
 
 const message = useMessage()
 const formRef = ref<FormInst | null>(null)
-const form = useForm(value.selectedScheduleItem)
+const form = useForm(props.selectedScheduleItem)
 
 // watch(props, (value) => {
 //     form = useForm(value.selectedScheduleItem)
