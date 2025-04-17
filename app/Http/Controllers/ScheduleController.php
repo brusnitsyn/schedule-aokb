@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Events\DeletedScheduleItem;
+use App\Events\UpdatedScheduleItem;
 use App\Http\Requests\Admin\Schedule\ScheduleStoreRequest;
 use App\Http\Requests\Admin\Schedule\ScheduleUpdateRequest;
 use App\Models\ScheduleItem;
 use App\Models\StatusScheduleItem;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -26,7 +29,18 @@ class ScheduleController extends Controller
         $items = \App\Models\ScheduleItem::orderBy('room')->get();
         $allSlots = 30;
         return Inertia::render('Schedule/Index', [
-            'schedule' => $items,
+            'schedule' => $items->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'doctor_fio' => $item->doctor_fio,
+                    'doctor_job' => $item->doctor_job,
+                    'doctor_name' => $item->doctor_name,
+                    'room' => $item->room,
+                    'start_at' => Carbon::parse($item->start_at)->getTimestampMs(),
+                    'end_at' => Carbon::parse($item->end_at)->getTimestampMs(),
+                    'status_schedule_item_id' => $item->status_schedule_item_id,
+                ];
+            }),
             'scheduleStatuses' => StatusScheduleItem::all(),
             'scheduleSlots' => [
                 'hasDisabledAddButton' => $items->count() >= $allSlots,
