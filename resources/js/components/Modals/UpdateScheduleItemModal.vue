@@ -67,7 +67,7 @@ function handleSubmit() {
             form.value.post(`/schedule/${props.selectedScheduleItem.id}/update`, {
                 data: {
                     _method: 'put',
-                    ...form.value
+                    ...form.value.data()
                 }
                 onSuccess: () => {
                     closeModal()
