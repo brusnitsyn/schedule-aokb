@@ -40,6 +40,7 @@ class ScheduleController extends Controller
     public function update(ScheduleItem $scheduleItem, ScheduleUpdateRequest $request)
     {
         $request->update($scheduleItem);
+        return Redirect::route('schedule');
     }
 
     public function create(ScheduleStoreRequest $request)
