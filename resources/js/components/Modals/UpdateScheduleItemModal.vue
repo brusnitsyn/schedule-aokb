@@ -13,10 +13,10 @@ const props = defineProps({
 
 const message = useMessage()
 const formRef = ref<FormInst | null>(null)
-const form = ref<object | null>(null)
+const form = useForm()
 
 watch(props, (value) => {
-    form.value = useForm(value.selectedScheduleItem)
+    form = useForm(value.selectedScheduleItem)
 })
 
 const rules = {
@@ -64,11 +64,7 @@ const rules = {
 function handleSubmit() {
     formRef.value?.validate((errors) => {
         if (!errors) {
-            form.value.post(`/schedule/${props.selectedScheduleItem.id}/update`, {
-                data: {
-                    _method: 'put',
-                    ...form.value.data()
-                },
+            form.post(`/schedule/${props.selectedScheduleItem.id}/update`, {
                 onSuccess: () => {
                     closeModal()
                 },
