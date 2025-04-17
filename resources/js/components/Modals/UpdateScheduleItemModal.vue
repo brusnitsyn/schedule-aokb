@@ -16,7 +16,7 @@ const formRef = ref<FormInst | null>(null)
 const form = ref({})
 
 watch(props, (value) => {
-    form = value.selectedScheduleItem
+    form.value = value.selectedScheduleItem
 })
 
 const rules = {
