@@ -14,6 +14,7 @@ const props = defineProps({
 const message = useMessage()
 const formRef = ref<FormInst | null>(null)
 const form = useForm({
+    id: props.selectedScheduleItem?.id || null,
     doctor_name: props.selectedScheduleItem?.doctor_name || '',
     doctor_job: props.selectedScheduleItem?.doctor_job || '',
     room: props.selectedScheduleItem?.room || '',
@@ -25,6 +26,7 @@ const form = useForm({
 watch(() => props.selectedScheduleItem, (newVal) => {
     if (newVal) {
         form.defaults({
+            id: newVal.id,
             doctor_name: newVal.doctor_name,
             doctor_job: newVal.doctor_job,
             room: newVal.room,
