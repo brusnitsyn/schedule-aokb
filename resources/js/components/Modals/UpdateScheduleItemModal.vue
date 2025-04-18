@@ -13,11 +13,28 @@ const props = defineProps({
 
 const message = useMessage()
 const formRef = ref<FormInst | null>(null)
-const form = ref({})
-
-watch(props, (value) => {
-    form.value = value.selectedScheduleItem
+const form = useForm({
+    doctor_name: props.selectedScheduleItem?.doctor_name || '',
+    doctor_job: props.selectedScheduleItem?.doctor_job || '',
+    room: props.selectedScheduleItem?.room || '',
+    start_at: props.selectedScheduleItem?.start_at || '',
+    end_at: props.selectedScheduleItem?.end_at || '',
+    status_schedule_item_id: props.selectedScheduleItem?.status_schedule_item_id || null,
 })
+
+watch(() => props.selectedScheduleItem, (newVal) => {
+    if (newVal) {
+        form.defaults({
+            doctor_name: newVal.doctor_name,
+            doctor_job: newVal.doctor_job,
+            room: newVal.room,
+            start_at: newVal.start_at,
+            end_at: newVal.end_at,
+            status_schedule_item_id: newVal.status_schedule_item_id,
+        })
+        form.reset()
+    }
+}, { immediate: true })
 
 const rules = {
     doctor_job: [
@@ -64,9 +81,7 @@ const rules = {
 function handleSubmit() {
     formRef.value?.validate((errors) => {
         if (!errors) {
-            router.post(route('schedule.update', { scheduleItem: props.selectedScheduleItem.id }), {
-                ...form.value
-            }, {
+            form.put(route('schedule.update', { scheduleItem: props.selectedScheduleItem.id }), {
                 onSuccess: () => {
                     closeModal()
                 },
@@ -83,7 +98,7 @@ function handleSubmit() {
 }
 
 function closeModal() {
-    form.value = {}
+    form.reset()
     open.value = false
 }
 
@@ -95,7 +110,7 @@ function onAfterEnter() {
 
 <template>
     <NModal v-model:show="open" @after-enter="onAfterEnter" class="w-[640px]" preset="card" title="Редактирование слота">
-        <NForm @submit="handleSubmit" ref="formRef" :model="form" :rules="rules">
+        <NForm @submit.prevent="handleSubmit" ref="formRef" :model="form" :rules="rules">
             <NGrid cols="2" x-gap="8">
                 <NFormItemGi label="ФИО врача" span="2" path="doctor_name">
                     <NInput v-model:value="form.doctor_name" placeholder="" clearable />
@@ -116,17 +131,15 @@ function onAfterEnter() {
                     <NSelect v-model:value="form.status_schedule_item_id" :options="scheduleStatuses" value-field="id" />
                 </NFormItemGi>
             </NGrid>
-        </NForm>
-        <template #action>
             <NFlex justify="space-between">
                 <NButton secondary @click="closeModal">
                     Отмена
                 </NButton>
-                <NButton type="primary" attr-type="submit" @click="handleSubmit">
+                <NButton type="primary" attr-type="submit">
                     Обновить слот
                 </NButton>
             </NFlex>
-        </template>
+        </NForm>
     </NModal>
 </template>
 
