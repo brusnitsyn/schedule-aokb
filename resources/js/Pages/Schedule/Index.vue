@@ -93,8 +93,8 @@ function openUpdateModal(open, row) {
 }
 
 // const dialog = useDialog()
-async function deleteSlot(row) {
-    router.delete(`/schedule/${row.id}/delete`)
+function deleteSlot(row) {
+    router.delete(route('schedule.delete', {scheduleItem: row.id}))
     // const d = dialog.warning({
     //     title: 'Удаление слота',
     //     content: 'Вы действительно хотите удалить этот слот?',

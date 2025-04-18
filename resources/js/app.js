@@ -1,6 +1,7 @@
 import '../css/app.css'
 import './bootstrap.js'
 import { createApp, h } from 'vue'
+import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { createInertiaApp } from '@inertiajs/vue3'
 import {mask} from 'vue-the-mask'
 
@@ -12,6 +13,7 @@ const app = createInertiaApp({
     setup({ el, App, props, plugin }) {
         const app = createApp({ render: () => h(App, props) })
             .use(plugin)
+            .use(ZiggyVue)
 
         app.directive('mask', mask)
         app.mount(el)

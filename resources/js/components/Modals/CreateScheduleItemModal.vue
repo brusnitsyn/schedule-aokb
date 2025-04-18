@@ -64,7 +64,7 @@ const rules = {
 function handleSubmit() {
     formRef.value?.validate((errors) => {
         if (!errors) {
-            form.post('/schedule/create', {
+            form.post(route('schedule.create'), {
                 onSuccess: () => {
                     closeModal()
                 }
@@ -86,7 +86,7 @@ function closeModal() {
 
 <template>
     <NModal v-model:show="open" class="w-[640px]" preset="card" title="Добавление слота в расписание">
-        <NForm @submit.prevent="handleSubmit" ref="formRef" :model="form" :rules="rules">
+        <NForm @submit="handleSubmit" ref="formRef" :model="form" :rules="rules">
             <NGrid cols="2"  x-gap="8">
                 <NFormItemGi label="ФИО врача" span="2" path="doctor_name">
                     <NInput v-model:value="form.doctor_name" placeholder="" clearable />

@@ -64,7 +64,7 @@ const rules = {
 function handleSubmit() {
     formRef.value?.validate((errors) => {
         if (!errors) {
-            router.post(`/schedule/${props.selectedScheduleItem.id}/update`, {
+            router.post(route('schedule.update', { scheduleItem: props.selectedScheduleItem.id }), {
                 ...form.value
             }, {
                 onSuccess: () => {
@@ -88,14 +88,14 @@ function closeModal() {
 }
 
 function onAfterEnter() {
-    
+
 }
 
 </script>
 
 <template>
     <NModal v-model:show="open" @after-enter="onAfterEnter" class="w-[640px]" preset="card" title="Редактирование слота">
-        <NForm @submit.prevent="handleSubmit" ref="formRef" :model="form" :rules="rules">
+        <NForm @submit="handleSubmit" ref="formRef" :model="form" :rules="rules">
             <NGrid cols="2" x-gap="8">
                 <NFormItemGi label="ФИО врача" span="2" path="doctor_name">
                     <NInput v-model:value="form.doctor_name" placeholder="" clearable />
