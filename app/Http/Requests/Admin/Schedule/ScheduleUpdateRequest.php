@@ -51,6 +51,6 @@ class ScheduleUpdateRequest extends FormRequest
             broadcast(new UpdatedScheduleItem($scheduleItem));
         }
 
-        return Redirect::route('schedule');
+        return response()->json(['success' => true]);
     }
 }
