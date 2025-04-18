@@ -27,7 +27,6 @@ class ScheduleUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'numeric'],
             'doctor_name' => ['required', 'string'],
             'doctor_job' => ['required', 'string'],
             'room' => ['required', 'string'],
@@ -51,6 +50,6 @@ class ScheduleUpdateRequest extends FormRequest
             broadcast(new UpdatedScheduleItem($scheduleItem));
         }
 
-        return response()->json(['success' => true]);
+        return Redirect::route('schedule');
     }
 }
