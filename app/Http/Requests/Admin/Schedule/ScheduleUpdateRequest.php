@@ -47,6 +47,7 @@ class ScheduleUpdateRequest extends FormRequest
 
         $hasUpdated = $scheduleItem->update($data);
         if ($hasUpdated) {
+            $scheduleItem = $scheduleItem->load('statusScheduleItem');
             broadcast(new UpdatedScheduleItem($scheduleItem));
         }
 
