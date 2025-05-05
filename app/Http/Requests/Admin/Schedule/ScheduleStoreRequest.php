@@ -36,7 +36,14 @@ class ScheduleStoreRequest extends FormRequest
 
     public function store()
     {
-        $hasCreated = ScheduleItem::create($this->validated());
+        $data = $this->validated();
+
+        Log::info($scheduleItem);
+
+        if (intval($data['start_at'])) $data['start_at'] = Carbon::createFromTimestampMs($data['start_at'], config('app.timezone'))->toDateTime();
+        if (intval($data['end_at'])) $data['end_at'] = Carbon::createFromTimestampMs($data['end_at'], config('app.timezone'))->toDateTime();
+        
+        $hasCreated = ScheduleItem::create($data);
         if ($hasCreated) {
             broadcast(new CreatedScheduleItem($hasCreated->load('statusScheduleItem')));
         }
