@@ -26,7 +26,8 @@ class ScheduleController extends Controller
 
     public function index()
     {
-        $items = \App\Models\ScheduleItem::orderBy('room')->get();
+        $items = \App\Models\ScheduleItem::orderBy('room')
+            ->get();
         $allSlots = 100;
         return Inertia::render('Schedule/Index', [
             'schedule' => $items->map(function ($item) {
@@ -39,6 +40,7 @@ class ScheduleController extends Controller
                     'start_at' => Carbon::parse($item->start_at)->getTimestampMs(),
                     'end_at' => Carbon::parse($item->end_at)->getTimestampMs(),
                     'status_schedule_item_id' => $item->status_schedule_item_id,
+                    'status_schedule' => $item->statusScheduleItem->label,
                 ];
             }),
             'scheduleStatuses' => StatusScheduleItem::all(),

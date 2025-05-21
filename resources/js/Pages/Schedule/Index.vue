@@ -1,6 +1,18 @@
 <script setup>
 import {ref, h, reactive, provide, readonly} from "vue"
-import { NH1, NSpace, NFlex, NButton, NDivider, NDropdown, NDataTable, NIcon, NDialogProvider, useDialog } from 'naive-ui'
+import {
+    NH1,
+    NSpace,
+    NFlex,
+    NButton,
+    NDivider,
+    NDropdown,
+    NDataTable,
+    NIcon,
+    NDialogProvider,
+    useDialog,
+    NEl
+} from 'naive-ui'
 import { IconDots } from '@tabler/icons-vue'
 import Admin from "@/Layouts/Admin.vue"
 import CreateScheduleItemModal from "@/components/Modals/CreateScheduleItemModal.vue"
@@ -59,6 +71,23 @@ const columns = ref([
         }
     },
     {
+        title: 'Приём',
+        key: 'status_schedule',
+        render(row) {
+            return h(
+                NEl,
+                {
+                    style: {
+                        color: row.status_schedule_item_id === 1 ? 'var(--primary-color)' : 'var(--error-color)'
+                    }
+                },
+                {
+                    default: () => row.status_schedule
+                }
+            )
+        }
+    },
+    {
         title: '',
         key: 'actions',
         width: 60,
@@ -95,30 +124,6 @@ function openUpdateModal(open, row) {
 // const dialog = useDialog()
 function deleteSlot(row) {
     router.delete(route('schedule.delete', {scheduleItem: row.id}))
-    // const d = dialog.warning({
-    //     title: 'Удаление слота',
-    //     content: 'Вы действительно хотите удалить этот слот?',
-    //     negativeText: 'Нет',
-    //     positiveText: 'Да',
-    //     onPositiveClick: () => {
-    //         d.loading = true
-    //         return new Promise((resolve) => {
-    //             sleep()
-    //                 .then(() => {
-    //                     d.content = countDown(2)
-    //                     return sleep()
-    //                 })
-    //                 .then(() => {
-    //                     d.content = countDown(1)
-    //                     return sleep()
-    //                 })
-    //                 .then(() => {
-    //                     d.content = countDown(0)
-    //                 })
-    //                 .then(resolve)
-    //         })
-    //     }
-    // })
 }
 </script>
 
