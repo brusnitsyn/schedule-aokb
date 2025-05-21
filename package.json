@@ -3,16 +3,12 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite",
-        "queue:start": "php artisan queue:restart && php artisan reverb:restart && npm run queue:remove && pm2 start pm2.json",
-        "queue:remove": "pm2 delete pm2.json"
+        "dev": "vite"
     },
-    "browserslist": ["Chrome >= 79"],
     "devDependencies": {
         "@vitejs/plugin-vue": "^5.2.1",
         "autoprefixer": "^10.4.20",
         "axios": "^1.7.4",
-        "browserslist": "^4.24.2",
         "concurrently": "^9.0.1",
         "laravel-echo": "^1.17.1",
         "laravel-vite-plugin": "^1.1.0",
