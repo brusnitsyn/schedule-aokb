@@ -27,7 +27,7 @@ class ScheduleController extends Controller
     public function index()
     {
         $items = \App\Models\ScheduleItem::orderBy('room')->get();
-        $allSlots = 30;
+        $allSlots = 100;
         return Inertia::render('Schedule/Index', [
             'schedule' => $items->map(function ($item) {
                 return [
