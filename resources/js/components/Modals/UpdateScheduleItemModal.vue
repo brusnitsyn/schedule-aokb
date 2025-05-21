@@ -83,15 +83,16 @@ const rules = {
 function handleSubmit() {
     formRef.value?.validate((errors) => {
         if (!errors) {
-            router.post(route('schedule.update', { scheduleItem: props.selectedScheduleItem.id }), form.data(), {
-                onSuccess: () => {
-                    closeModal()
-                    router.reload()
-                },
-                onError: (err) => {
-                    console.log(err)
-                }
-            })
+            form
+                .submit('post', route('schedule.update', { scheduleItem: props.selectedScheduleItem.id }), {
+                    onSuccess: () => {
+                        closeModal()
+                        router.reload()
+                    },
+                    onError: (err) => {
+                        console.log(err)
+                    }
+                })
         }
         else {
             console.log(errors)
